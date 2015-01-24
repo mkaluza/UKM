@@ -1,0 +1,16 @@
+function tohex() {
+				hexdigits=( 0 1 2 3 4 5 6 7 8 9 A B C D E F )
+				dec=$1
+				out=""
+				while [ -n "$dec" -a "$dec" -gt 0 ]; do
+					let dig=$((dec & 15))
+					out="${hexdigits[dig]}$out"
+					let dec=$((dec >> 4))
+				done
+	echo -n $out
+}
+
+function varm_to_hex() {
+	varm=$1
+	tohex $(( (varm-700000)/12500 ))
+}

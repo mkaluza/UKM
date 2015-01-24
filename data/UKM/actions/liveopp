@@ -1,0 +1,11 @@
+basedir=`dirname $0`
+. $basedir/mk_functions
+
+op=$1
+dest=/sys/kernel/liveopp/$2
+
+if [ -n "$3" ]; then
+	hex=`varm_to_hex $3`
+	echo $op=0x$hex > $dest
+fi
+cat $dest | grep Varm | awk '{print $2}'

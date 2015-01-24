@@ -1,0 +1,15 @@
+basedir=`dirname $0`
+. $basedir/mk_functions
+
+#op=$1
+op=vape
+dest=/sys/kernel/mali/mali_dvfs_config
+
+#idx=$2
+idx=$1
+
+if [ -n "$2" ]; then
+	hex=`varm_to_hex $2`
+	echo $idx $op=0x$hex > $dest
+fi
+cat $dest | grep -e "^ *$idx " | awk '{print $5}'

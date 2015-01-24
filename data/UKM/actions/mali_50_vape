@@ -1,0 +1,10 @@
+basedir=`dirname $0`
+. $basedir/mk_functions
+
+dest=/sys/kernel/mali/mali_gpu_vape_50_opp
+
+if [ -n "$1" ]; then
+	hex=`varm_to_hex $1`
+	echo 0x$hex > $dest
+fi
+cat $dest | awk '{print $1}'

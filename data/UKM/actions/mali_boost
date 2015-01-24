@@ -1,0 +1,8 @@
+level=$1
+param=$2
+
+dst=/sys/kernel/mali/mali_boost_$level
+if [ -n "$3" ]; then
+	echo $param=$3 > $dst
+fi
+grep $param $dst | awk -F ':' '{gsub(" ",""); print $2}'

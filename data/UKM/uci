@@ -13,8 +13,8 @@ UCI_FILES=$UKM/files/;
 
 if [ ! -f $UCI_CONFIG ]; then
 	echo "{sections: [" > $UCI_CONFIG
-	$UKM/cpufreq.sh >> $UCI_CONFIG
-	echo "," >> $UCI_CONFIG
+	#$UKM/cpufreq.sh >> $UCI_CONFIG
+	#echo "," >> $UCI_CONFIG
 	$UKM/liveopp.sh >> $UCI_CONFIG
 	echo "," >> $UCI_CONFIG
 	$UKM/mali.sh >> $UCI_CONFIG

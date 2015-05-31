@@ -20,6 +20,8 @@ if [ ! -f $UCI_CONFIG ]; then
 	$UKM/mali.sh >> $UCI_CONFIG
 	echo "," >> $UCI_CONFIG
 	$UKM/mali_vape.sh >> $UCI_CONFIG
+	echo "," >> $UCI_CONFIG
+	$UKM/u8500_power.sh >> $UCI_CONFIG
 	echo "]}" >> $UCI_CONFIG
 fi
 

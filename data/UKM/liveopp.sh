@@ -5,8 +5,8 @@ cat << _EOF
 _EOF
 
 for i in /sys/kernel/liveopp/arm_step*; do
-				n=`basename $i`
-				freq=`cat $i | grep "Frequency show" | awk '{print $3/1000}'`
+				freq=( `grep "Frequency show" $i` )
+				freq=$((freq[2]/1000))
 				cat << _EOF
 				{
 							SSeekBar: {
@@ -16,7 +16,7 @@ for i in /sys/kernel/liveopp/arm_step*; do
 								min: 700000,
 								max: 1425000,
 								step: 12500,
-								action: "liveopp varm $n"
+								action: "liveopp $i varm"
 				}},
 _EOF
 done

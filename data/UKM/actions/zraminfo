@@ -1,0 +1,15 @@
+UKM=/data/UKM;
+BB=$UKM/busybox;
+
+ZRAM_DEV=/sys/devices/virtual/block/zram0;
+
+[ -n "$1" ] && ZRAM_DEV=$1
+
+size=`cat $ZRAM_DEV/disksize`
+size=$((size/1024))
+osize=`cat $ZRAM_DEV/orig_data_size`
+osize=$((osize/1024))
+csize=`cat $ZRAM_DEV/compr_data_size`
+csize=$((csize/1024))
+
+echo "Used: $((osize/1024))M($((100*osize/size))%), using: $((csize/1024))M($((100*(osize-csize)/osize))%)"

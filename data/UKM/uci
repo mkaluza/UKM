@@ -10,18 +10,30 @@ UCI_DEVICE=$UKM/device/;
 UCI_FILES=$UKM/files/;
 #DEBUG=$UKM/debug;
 #SYNAPSE_SD_DIR=/sdcard/Synapse;
-
+ts0=`date +"%s"`
+function timeit() {
+	ts=`date +"%s"`
+	_ts=$1
+	echo $1 $((ts-ts0))
+}
 if [ ! -f $UCI_CONFIG ]; then
 	echo "{sections: [" > $UCI_CONFIG
 	#$UKM/cpufreq.sh >> $UCI_CONFIG
 	#echo "," >> $UCI_CONFIG
 	$UKM/liveopp.sh >> $UCI_CONFIG
+	timeit liveopp
 	echo "," >> $UCI_CONFIG
 	$UKM/mali.sh >> $UCI_CONFIG
+	timeit mali
 	echo "," >> $UCI_CONFIG
 	$UKM/mali_vape.sh >> $UCI_CONFIG
+	timeit mali_vape
 	echo "," >> $UCI_CONFIG
 	$UKM/u8500_power.sh >> $UCI_CONFIG
+	timeit power
+	echo "," >> $UCI_CONFIG
+	$UKM/config.json.generate.mem >> $UCI_CONFIG
+	timeit mem
 	echo "]}" >> $UCI_CONFIG
 fi
 

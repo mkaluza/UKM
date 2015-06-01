@@ -34,6 +34,8 @@ if [ ! -f $UCI_CONFIG ]; then
 	echo "," >> $UCI_CONFIG
 	$UKM/config.json.generate.mem >> $UCI_CONFIG
 	timeit mem
+	$UKM/config.json.generate.io >> $UCI_CONFIG
+	timeit io
 	echo "]}" >> $UCI_CONFIG
 fi
 

@@ -74,6 +74,34 @@ cat << CTAG
 				description:"Tune the operation of the VM subsystem of the Linux kernel and the writeout of dirty data to disk. Swappiness also affects Z-RAM operation on kernels which support swaps."
 			}},
 				{ SSeekBar:{
+					title:"Swappiness",
+					description:"Controls the tendency of the kernel to move processes out of physical memory and onto the swap disk. Because disks are much slower than RAM, this can lead to slower response times for system and applications if processes are too aggressively moved out of memory.",
+					unit:"%",
+					step:1,
+					min:0,
+					max:100,
+					default:`$BB cat /proc/sys/vm/swappiness`,
+					action:"generic /proc/sys/vm/swappiness"
+				}},
+CTAG
+
+MEMCG="/sys/fs/cgroup/memory/"
+if [ -f "$MEMCG/tasks" ]; then
+	cat << __CTAG
+				{ SSeekBar:{
+						title:"Background swappiness",
+						description:"Swappiness for backgroud processes selected by Android as low priority",
+					unit:"%",
+					step:1,
+					min:0,
+					max:100,
+					action:"generic $MEMCG/sw/memory.swappiness",
+					}},
+__CTAG
+fi
+
+cat << CTAG
+				{ SSeekBar:{
 					title:"Dirty Background Ratio",
 					description:"Contains, as a % of total system memory, the number of pages at which the pdflush background writeback daemon will start writing out dirty data.",
 					unit:"%",
@@ -119,16 +147,6 @@ cat << CTAG
 					action:"generic /proc/sys/vm/laptop_mode",
 					values:{ 0:"Disabled", 1:"Enabled"
 					}
-				}},
-				{ SSeekBar:{
-					title:"Swappiness",
-					description:"Controls the tendency of the kernel to move processes out of physical memory and onto the swap disk. Because disks are much slower than RAM, this can lead to slower response times for system and applications if processes are too aggressively moved out of memory.",
-					unit:"%",
-					step:1,
-					min:0,
-					max:100,
-					default:`$BB cat /proc/sys/vm/swappiness`,
-					action:"generic /proc/sys/vm/swappiness"
 				}},
 				{ SSeekBar:{
 					title:"VFS Cache Pressure",

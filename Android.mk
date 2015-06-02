@@ -1,10 +1,12 @@
 LOCAL_PATH := $(call my-dir)
+include $(CLEAR_VARS)
 
 LOCAL_MODULE := UKM
 
-$(shell mkdir -p $(TARGET_OUT)/UKM )
-$(shell mkdir -p $(TARGET_OUT)/etc/init.d )
-$(shell cp -a $(LOCAL_PATH)/data/UKM/ $(TARGET_OUT)/ )
-$(shell ln -fs /system/UKM/UKM $(TARGET_OUT_ETC)/init.d/99UKM)
-$(shell ln -fs /data/UKM/uci $(TARGET_OUT)/xbin/uci)
+LOCAL_MODULE_CLASS := ETC
+LOCAL_SRC_FILES := data/UKM/UKM
+LOCAL_MODULE_PATH := $(TARGET_OUT_ETC)/init.d/
 
+include $(BUILD_PREBUILT)
+$(shell mkdir -p $(TARGET_OUT))
+$(shell cp -a $(LOCAL_PATH)/data/UKM/ $(TARGET_OUT)/ )

@@ -86,7 +86,35 @@ cat << _EOF
 						unit: "%",
 						action: "mali_boost low threshold"
 					}
-				},
+				}, {
+					STitleBar: {title: "Touchbooster"}
+				}, {
+					SOptionList: {
+						values: {"on": "Enabled", "off": "Disabled"},
+						action: "generic /sys/kernel/mxt224e/touchboost"
+					}
+				}, {
+					SSeekBar: {
+						title: "Touchboost delay",
+						unit: "ms",
+						min: 100,
+						max: 3000,
+						step: 100,
+						action: "generic /sys/kernel/mxt224e/touchboost_delay"
+					}
+				}, {
+					SCheckBox: {
+						label: "Boost APE (GPU)",
+						default: 1,
+						action: "generic /sys/kernel/mxt224e/touchboost_ape"
+					}
+				}, {
+					SCheckBox: {
+						label: "Boost DDR (Memory)",
+						default: 1,
+						action: "generic /sys/kernel/mxt224e/touchboost_ddr"
+					}
+				}
 ]}
 _EOF
 

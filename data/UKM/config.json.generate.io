@@ -7,11 +7,13 @@ cat << CTAG
 			{ STitleBar:{
 				title:"I/O Control for $dev"
 			}},
-				{ SOptionList:{
+				{ SSeekBar:{
 					title:"Read-ahead Size",
 					description:"Set the read-ahead size for the internal storage.",
+					min: 64,
+					step: 64,
+					max:1024,
 					unit:" KB",
-					values: [ 32, 64, 128, 256, 512, 1024, 2048 ],
 					default:`$BB cat /sys/block/$dev/queue/read_ahead_kb`,
 					action:"ioset queue $dev read_ahead_kb"
 				}},

@@ -1,0 +1,9 @@
+file=$1
+value=$2
+
+if [ -n "$value" ]; then
+	echo $(((50+value*255)/100)) > $file
+fi
+
+value=$(cat $file)
+echo $(((127+value*100)/255))

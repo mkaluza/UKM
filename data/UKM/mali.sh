@@ -28,16 +28,18 @@ cat << _EOF
 				}, {
 					SSeekBar: {
 						title: "OPP 100 up threshold",
-						min: 50,
-						max: 255,
-						action: "generic /sys/module/mali/parameters/mali_utilization_low_to_high"
+						min: 30,
+						max: 95,
+						unit: "%",
+						action: "generic_pct_255 /sys/module/mali/parameters/mali_utilization_low_to_high"
 					}
 				}, {
 					SSeekBar: {
 						title: "OPP 50 down threshold",
 						min: 10,
-						max: 200,
-						action: "generic /sys/module/mali/parameters/mali_utilization_high_to_low"
+						max: 50,
+						unit: "%",
+						action: "generic_pct_255  /sys/module/mali/parameters/mali_utilization_high_to_low"
 					}
 				}, {
 					STitleBar: {title: "Mali boost"}
@@ -62,8 +64,9 @@ cat << _EOF
 				}, {
 					SSeekBar: {
 						title: "Up threshold",
-						min: 50,
-						max: 255,
+						min: 30,
+						max: 95,
+						unit: "%",
 						action: "mali_boost high threshold"
 					}
 				}, {
@@ -78,8 +81,9 @@ cat << _EOF
 				}, {
 					SSeekBar: {
 						title: "Down threshold",
-						min: 5,
-						max: 200,
+						min: 10,
+						max: 50,
+						unit: "%",
 						action: "mali_boost low threshold"
 					}
 				},

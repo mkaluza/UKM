@@ -1,8 +1,14 @@
 level=$1
 param=$2
+value=$3
 
 dst=/sys/kernel/mali/mali_boost_$level
-if [ -n "$3" ]; then
-	echo $param=$3 > $dst
+
+if [ -n "$value" ]; then
+	[ "$param" == "threshold" ] && value=$(((50+value*255)/100))
+	echo $param=$value > $dst
 fi
-grep $param $dst | awk -F ':' '{gsub(" ",""); print $2}'
+
+value=`grep $param $dst | awk -F ':' '{gsub(" ",""); print $2}'`
+[ "$param" == "threshold" ] && value=$(((127+value*100)/255))
+echo $value

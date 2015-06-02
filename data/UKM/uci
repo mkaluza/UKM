@@ -10,6 +10,8 @@ UCI_DEVICE=$UKM/device/;
 UCI_FILES=$UKM/files/;
 #DEBUG=$UKM/debug;
 #SYNAPSE_SD_DIR=/sdcard/Synapse;
+
+export UKM BB UCI_ACTION UCI_DEVICE
 ts0=`date +"%s"`
 function timeit() {
 	ts=`date +"%s"`

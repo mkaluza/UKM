@@ -18,7 +18,7 @@ case "$op" in
 	;;
 	scheduler)
 		if [[ -z $dev ]]; then
-			cat /sys/block/*/queue/scheduler | grep -v none |head -n 1 | sed -e "s/\]\|\[//g" -e "s/^ *\| *$/\"/g" -e "s/ /\",\"/g"
+			cat /sys/block/*/queue/scheduler | grep -v none |head -n 1 | sed -e "s/\]\|\[//g" -e "s/^ */\"/" -e "s/ *$/\"/g" -e "s/ /\",\"/g"
 			exit
 		fi
 

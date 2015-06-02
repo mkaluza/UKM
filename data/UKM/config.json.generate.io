@@ -1,22 +1,24 @@
+for _dev in `ls /sys/block/mmcblk[0-9] /sys/block/mmcblk[0-9][0-9]`; do
+dev=`basename $_dev`
 cat << CTAG
 {
-	name:I/O,
+	name:"I/O: $dev",
 		elements:[
 			{ STitleBar:{
-				title:"I/O Control"
+				title:"I/O Control for $dev"
 			}},
 				{ SOptionList:{
 					title:"Read-ahead Size",
 					description:"Set the read-ahead size for the internal storage.",
 					unit:" KB",
 					values: [ 32, 64, 128, 256, 512, 1024, 2048 ],
-					default:`$BB cat /sys/block/mmcblk0/queue/read_ahead_kb`,
-					action:"ioset queue mmcblk0 read_ahead_kb"
+					default:`$BB cat /sys/block/$dev/queue/read_ahead_kb`,
+					action:"ioset queue $dev read_ahead_kb"
 				}},
 				{ SOptionList:{
 					title:"I/O Scheduler",
 					description:"The I/O Scheduler decides how to prioritize and handle I/O requests. More info: <a href='http://timos.me/tm/wiki/ioscheduler'>HERE</a>",
-					action:"ioset scheduler mmcblk0",
+					action:"ioset scheduler $dev",
 					values:[
 						`$UCI_ACTION/ioset scheduler`
 					],
@@ -24,12 +26,12 @@ cat << CTAG
 						{
 							on:APPLY,
 							do:[ REFRESH, CANCEL ],
-							to:"/sys/block/mmcblk0/queue/iosched",
+							to:"/sys/block/$dev/queue/iosched",
 						},
 						{
 							on:REFRESH,
 							do:REFRESH,
-							to:"/sys/block/mmcblk0/queue/iosched",
+							to:"/sys/block/$dev/queue/iosched",
 						}
 					]
 				}},
@@ -40,26 +42,26 @@ cat << CTAG
 				{ SCheckBox:{
 					description:"Draw entropy from spinning (rotational) storage.",
 					label:"Add Random",
-					default:`$BB cat /sys/block/mmcblk0/queue/add_random`,
-					action:"ioset queue mmcblk0 add_random"
+					default:`$BB cat /sys/block/$dev/queue/add_random`,
+					action:"ioset queue $dev add_random"
 				}},
 				{ SCheckBox:{
 					description:"Maintain I/O statistics for this storage device. Disabling will break I/O monitoring apps.",
 					label:"I/O Stats",
-					default:`$BB cat /sys/block/mmcblk0/queue/iostats`,
-					action:"ioset queue mmcblk0 iostats"
+					default:`$BB cat /sys/block/$dev/queue/iostats`,
+					action:"ioset queue $dev iostats"
 				}},
 				{ SCheckBox:{
 					description:"Treat device as rotational storage.",
 					label:"Rotational",
-					default:`$BB cat /sys/block/mmcblk0/queue/rotational`,
-					action:"ioset queue mmcblk0 rotational"
+					default:`$BB cat /sys/block/$dev/queue/rotational`,
+					action:"ioset queue $dev rotational"
 				}},				
 				{ SOptionList:{
 					title:"No Merges",
 					description:"Types of merges (prioritization) the scheduler queue for this storage device allows.",
-					default:`$BB cat /sys/block/mmcblk0/queue/nomerges`,
-					action:"ioset queue mmcblk0 nomerges",
+					default:`$BB cat /sys/block/$dev/queue/nomerges`,
+					action:"ioset queue $dev nomerges",
 					values:{
 						0:"All", 1:"Simple Only", 2:"None"
 					}
@@ -67,8 +69,8 @@ cat << CTAG
 				{ SOptionList:{
 					title:"RQ Affinity",
 					description:"Try to have scheduler requests complete on the CPU core they were made from. Higher is more aggressive. Some kernels only support 0-1.",
-					default:`$BB cat /sys/block/mmcblk0/queue/rq_affinity`,
-					action:"ioset queue mmcblk0 rq_affinity",
+					default:`$BB cat /sys/block/$dev/queue/rq_affinity`,
+					action:"ioset queue $dev rq_affinity",
 					values:{
 						0:"Disabled", 1:"Enabled", 2:"Aggressive"
 					}
@@ -79,14 +81,14 @@ cat << CTAG
 					step:128,
 					min:128,
 					max:2048,
-					default:`$BB cat /sys/block/mmcblk0/queue/nr_requests`,
-					action:"ioset queue mmcblk0 nr_requests"
+					default:`$BB cat /sys/block/$dev/queue/nr_requests`,
+					action:"ioset queue $dev nr_requests"
 				}},
 			{ SPane:{
 				title:"I/O Scheduler Tunables"
 			}},
 				{ STreeDescriptor:{
-					path:"/sys/block/mmcblk0/queue/iosched",
+					path:"/sys/block/$dev/queue/iosched",
 					generic: {
 						directory: {},
 						element: {
@@ -98,3 +100,4 @@ cat << CTAG
 		]
 }
 CTAG
+done

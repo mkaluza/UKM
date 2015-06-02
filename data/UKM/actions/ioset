@@ -1,27 +1,34 @@
 UKM=/data/UKM;
 BB=$UKM/busybox;
 
-case "$1" in
+op=$1
+dev=$2
+
+case "$op" in
 	queue)
-		if [ -f /sys/block/mmcblk0/queue/$2 ]; then
-			if [[ ! -z $3 ]]; then
-				for i in /sys/block/*/queue; do
-					$BB echo $3 > $i/$2 2> /dev/null;
-				done;
+		param=$3
+		data=$4
+		if [ -f /sys/block/$dev/queue/$param ]; then
+			if [[ ! -z $data ]]; then
+				$BB echo $data > /sys/block/$dev/queue/$param;
 			fi;
 
-			$BB echo `$BB cat /sys/block/mmcblk0/queue/$2`;
+			$BB cat /sys/block/$dev/queue/$param
 		fi;
 	;;
 	scheduler)
-		if [ -f /sys/block/mmcblk0/queue/scheduler ]; then
-			if [[ ! -z $2 ]]; then
-				for i in /sys/block/mmcblk*/queue/scheduler; do
-					$BB echo $2 > $i 2> /dev/null;
-				done;
-			fi;
+		if [[ -z $dev ]]; then
+			cat /sys/block/*/queue/scheduler | grep -v none |head -n 1 | sed -e "s/\]\|\[//g" -e "s/^ *\| *$/\"/g" -e "s/ /\",\"/g"
+			exit
+		fi
 
-			$BB echo `$BB cat /sys/block/mmcblk0/queue/scheduler | $BB sed -n -e '/\[[^]]/s/^[^[]*\[\([^]]*\)].*$/\1/p'`;
+		data=$3
+		if [ -f /sys/block/$dev/queue/scheduler ]; then
+			if [[ ! -z $data ]]; then
+				$BB echo $data > /sys/block/$dev/queue/scheduler;
+			fi
+
+			$BB echo `$BB cat /sys/block/$dev/queue/scheduler | $BB sed -n -e '/\[[^]]/s/^[^[]*\[\([^]]*\)].*$/\1/p'`;
 		fi;
 	;;
 esac;

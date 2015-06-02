@@ -1,0 +1,20 @@
+cat << _EOF
+{
+	name: Modules,
+	elements: [
+_EOF
+for i in /system/lib/modules/*.ko; do
+	name=`basename $i .ko`
+	description=`$BB modinfo -d $i`
+cat << _EOF
+		{SOptionList: {
+			title: "$name",
+			description: "$description",
+			values:{ 0:"Disabled", 1:"Enabled" },
+			action:"module $name",
+		}},
+_EOF
+done
+
+echo "]}"
+

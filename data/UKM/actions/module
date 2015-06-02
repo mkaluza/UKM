@@ -1,0 +1,14 @@
+#!/system/bin/sh
+
+name=$1
+value=$2
+
+if [ "$value" == 0 ]; then
+	rmmod $name
+elif [ "$value" == 1 ]; then
+	modprobe $name
+fi
+
+ret=0
+lsmod | grep -q -e "^$name " && ret=1
+echo $ret

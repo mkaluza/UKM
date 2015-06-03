@@ -38,8 +38,6 @@ if [ ! -f $UCI_CONFIG ]; then
 	timeit mem
 	$UKM/config.json.generate.io >> $UCI_CONFIG
 	timeit io
-	$UKM/config.json.generate.modules >> $UCI_CONFIG
-	timeit modules
 	echo "]}" >> $UCI_CONFIG
 fi
 
